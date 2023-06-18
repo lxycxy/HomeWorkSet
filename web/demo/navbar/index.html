@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Navbar</title>
+  <style>
+    :root {
+      --firstColor: white;
+      --secondColor: orange;
+      --content-max-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--firstColor);
+    }
+
+    a:hover {
+      color: var(--secondColor);
+    }
+
+    body {      
+      background-image: url('https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1517&q=80');
+      backdrop-filter: blur(.1rem);
+      height: 100vh;      
+      background-size: cover;
+      background-position: center;      
+    }
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      height: 4rem;
+      max-width: var(--content-max-width);
+      padding-inline: 2rem;
+      margin-inline: auto;
+      /* position: relative; */
+    }
+    header .logo a {
+      font-size: 1.5rem;
+      font-weight: bold;
+    }
+    header .menu {
+      display: flex;
+      align-items: center;
+      gap:2rem;
+    }
+    header .menu.open {
+      height: 12rem;
+      opacity: 1;
+    }
+    header .menu .actionBtn {
+      background-color: var(--secondColor);
+      padding: 0.5rem 1rem;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: 0.2s;
+    }
+    header .menu .actionBtn:hover {
+      scale: 1.05;
+      color: var(--firstColor);
+    }
+    header .menu .actionBtn:active {
+      scale:.95;
+    }
+    header .toggleBtn {
+      color: var(--firstColor);
+      font-size: 1.5rem;
+      cursor:pointer;
+      display: none;
+    }
+    #hero {
+      height: calc(100vh - 8rem);
+      display: grid;
+      place-content: center;
+      text-align: center;
+      color:var(--firstColor);
+      padding-inline: 2rem;
+    }
+    #hero h1 {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+    }
+    #hero p {
+      line-height: 2rem;
+    }
+    @media (max-width: 768px) {
+      header .toggleBtn {
+        display: block;
+      }
+      header .menu {
+        flex-direction: column;
+        justify-content: space-around;
+        gap:0;
+        position: absolute;
+        top: 4rem;
+        right: 2rem;
+        width: 15rem;
+        height: 0;
+        opacity: 0;
+        overflow: hidden;
+        background-color: rgba(255,255,255,0.1);
+        backdrop-filter: blur(0.5rem);
+        transition: 0.5s;
+      }
+      header .menu .actionBtn {
+        align-self: stretch;
+        margin-inline: .5rem;
+        text-align: center;
+      }
+    }
+    @media (max-width: 576px) {
+      header .menu {
+        left: 2rem;
+        width: unset;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo"><a href="#">Web Dev Creative</a></div>
+    <div class="menu">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="actionBtn">Get Started</a>
+    </div>
+    <div class="toggleBtn">
+      <i class="fa-bars fa"></i>
+    </div>
+  </header>
+  <main>
+    <section id="hero">
+      <h1>Welcome</h1>
+      <p>当法律失去公正，则反抗成为义务。        
+        <br>When injustice becomes law, resistance becomes duty.
+        <br>—— 匿名
+      </p>
+    </section>
+  </main>
+  <script>
+    const toggleBtn = document.querySelector('.toggleBtn'),
+          toggleBtnIcon = document.querySelector('.toggleBtn i'),
+          menu = document.querySelector('.menu')
+    toggleBtn.onclick = () => {
+      menu.classList.toggle('open')
+      toggleBtnIcon.classList =
+        menu.classList.contains('open') ? 'fa fa-xmark' : 'fa fa-bars'
+    }
+  </script>
+  <script src="https://kit.fontawesome.com/fa79f509a7.js" crossorigin="anonymous"></script>  
+</body>
+
+</html>

@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Navbar</title>
+  <style>
+    :root {
+      --firstColor: white;
+      --secondColor: orange;
+      --content-max-width: 1200px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    a {
+      text-decoration: none;
+      color: var(--firstColor);
+    }
+
+    a:hover {
+      color: var(--secondColor);
+    }
+
+    body {      
+      background-image: url('https://images.unsplash.com/photo-1485470733090-0aae1788d5af?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1517&q=80');
+    }
+  </style>
+</head>
+
+<body>
+  <header>
+    <div class="logo"><a href="#">Web Dev Creative</a></div>
+    <div class="menu">
+      <a href="#hero">Home</a>
+      <a href="#about">About</a>
+      <a href="#services">Services</a>
+      <a href="#contact">Contact</a>
+      <a href="#" class="actionBtn">Get Started</a>
+    </div>
+    <div class="toggleBtn">
+      <i class="fa-bars fa"></i>
+    </div>
+  </header>
+  <main>
+    <section id="hero">
+      <h1>Welcome</h1>
+      <p>当法律失去公正，则反抗成为义务。        
+        <br>When injustice becomes law, resistance becomes duty.
+        <br>—— 匿名
+      </p>
+    </section>
+  </main>
+
+  <script src="https://kit.fontawesome.com/fa79f509a7.js" crossorigin="anonymous"></script>  
+</body>
+
+</html>

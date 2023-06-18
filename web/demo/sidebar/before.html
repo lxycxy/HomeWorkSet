@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Sidebar</title>
+  <style>
+    /* Google Font Link */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+    :root{
+      --sidebar-color: #fff;
+      --sidebar-bgColor: #11101d;
+      --search-profile-bgColor: #1d1b31;
+      --home-bgCololr: #e4e9f7;
+      --sidebar-close-width: 5rem;
+      --sidebar-open-width: 16rem;
+      --logo-profile-height: 4rem;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    a { text-decoration: none; }
+    li { list-style: none; }
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <i class='bx bxl-c-plus-plus icon'></i>
+      <div class="logo_name">CodingLab</div>
+      <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+        <i class='bx bx-search'></i>
+        <input type="text" placeholder="Search...">
+        <span class="tooltip">Search</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Dashboard</span>
+        </a>
+        <span class="tooltip">Dashboard</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-user'></i>
+          <span class="links_name">User</span>
+        </a>
+        <span class="tooltip">User</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-chat'></i>
+          <span class="links_name">Messages</span>
+        </a>
+        <span class="tooltip">Messages</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-pie-chart-alt-2'></i>
+          <span class="links_name">Analytics</span>
+        </a>
+        <span class="tooltip">Analytics</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-folder'></i>
+          <span class="links_name">File Manager</span>
+        </a>
+        <span class="tooltip">Files</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-cart-alt'></i>
+          <span class="links_name">Order</span>
+        </a>
+        <span class="tooltip">Order</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-heart'></i>
+          <span class="links_name">Saved</span>
+        </a>
+        <span class="tooltip">Saved</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-cog'></i>
+          <span class="links_name">Setting</span>
+        </a>
+        <span class="tooltip">Setting</span>
+      </li>      
+    </ul>
+    <div class="profile">
+      
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=761&q=80" alt="profileImg">
+        <div class="name_job">
+          <div class="name">Prem Shahi</div>
+          <div class="job">Web designer</div>
+        </div>
+
+      <i class='bx bx-log-out' id="log_out"></i>
+    </div>
+  </div>
+  <section class="home-section">
+    <div class="text">Dashboard</div>    
+  </section>
+
+  <script>    
+    const body = document.querySelector('body'),
+          closeBtn = document.querySelector("#btn"),
+          searchBtn = document.querySelector(".bx-search")
+
+    if(window.screen.width >= 768) {
+      body.classList.add('open')
+      closeBtn.classList.replace('bx-menu', 'bx-menu-alt-right')
+    }
+
+    closeBtn.onclick = () => {
+      body.classList.toggle('open')
+      menuBtnChange()
+    }
+
+    searchBtn.onclick = () => { 
+      body.classList.toggle('open')
+      menuBtnChange();
+    }
+
+    const mq = window.matchMedia('(max-width: 768px)')
+    mq.addEventListener('change', (event) => {
+      
+      if(event.matches) {
+        body.classList.remove('open')
+        closeBtn.classList.replace('bx-menu-alt-right', 'bx-menu')
+      }else{
+        body.classList.add('open')
+        closeBtn.classList.replace('bx-menu', 'bx-menu-alt-right')
+      }
+    })
+
+    function menuBtnChange() {
+      if (body.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right")
+      } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu")
+      }
+    }
+  </script>
+</body>
+
+</html>

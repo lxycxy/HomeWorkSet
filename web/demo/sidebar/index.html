@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+  <meta charset="UTF-8">
+  <!-- Boxicons CDN Link -->
+  <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Responsive Sidebar</title>
+  <style>
+    /* Google Font Link */
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap');
+    :root{
+      --sidebar-color: #fff;
+      --sidebar-bgColor: #11101d;
+      --search-profile-bgColor: #1d1b31;
+      --home-bgCololr: #e4e9f7;
+      --sidebar-close-width: 5rem;
+      --sidebar-open-width: 16rem;
+      --logo-profile-height: 4rem;
+    }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: "Poppins", sans-serif;
+    }
+    a { text-decoration: none; }
+    li { list-style: none; }
+    
+    /*========= 整体布局 */
+    body{
+      display: grid;
+      grid-template-columns: var(--sidebar-close-width) 1fr;
+      height: 100vh;
+      animation: close .5s;
+    }
+    body.open{
+      grid-template-columns: var(--sidebar-open-width) 1fr;
+      animation: open .5s;
+    }
+    @keyframes close {
+      0% {
+        grid-template-columns: var(--sidebar-open-width) 1fr;
+      }
+      100% {
+        grid-template-columns: var(--sidebar-close-width) 1fr;
+      }
+    }
+    @keyframes open {
+      0% {
+        grid-template-columns: var(--sidebar-close-width) 1fr;
+      }
+      100% {
+        grid-template-columns: var(--sidebar-open-width) 1fr;
+      }
+    }
+    /*========= sidebar和home */
+    .sidebar {
+      color: var(--sidebar-color);
+      background-color: var(--sidebar-bgColor);
+      padding: .5rem 1rem;
+      /* 因sidebar中的tooltip需要显示出来，而hero出现在后面，其z-index默认高于sidebar，所以设置sidebar的z-index */
+      z-index: 1;
+      /* profile等将进行绝对定位 */
+      position: relative;  
+    }
+    .home-section {
+      background: var(--home-bgCololr);
+    }
+    .home-section .text {
+      font-size: 25px;
+      font-weight: 500;
+      margin: 18px
+    }
+    /*========= logo和profile布局 */
+    .sidebar .logo, .sidebar .profile {
+      height: var(--logo-profile-height);
+      display: flex;
+      align-items: center;
+      font-size: 1.2rem;
+    }
+    .sidebar .logo .icon ,
+    .sidebar .logo .logo_name,
+    .sidebar .profile img,
+    .sidebar .profile .name_job  {
+      flex-basis: 0;
+      overflow: hidden;
+      opacity: 0;
+      transition: all 0.5s;
+    }
+    body.open .sidebar .logo .icon,
+    body.open .sidebar .profile img {
+      /* flex-basis的transition必须设置固定的尺寸才有效 */
+      flex-basis: 2.5rem;
+      opacity: 1;
+    }
+    body.open .sidebar .logo .logo_name,
+    body.open .sidebar .profile .name_job {
+      flex-basis: 7rem;
+      opacity: 1;
+    }
+    .sidebar .logo .logo_name {      
+      font-weight: 600;      
+    }
+
+    /*========= 图标 */
+    .sidebar i {
+      min-width: 3rem;
+      text-align: center;
+    }
+    .sidebar .logo i.icon {
+      font-size: 2rem;
+      min-width: unset;
+    }
+    body.open .sidebar .logo i.icon {
+      min-width: 3rem;
+    }
+
+    /*========= menu-btn和log-btn */
+    .sidebar .logo #btn, .profile #log_out {
+      font-size: 2rem;
+      text-align: center;
+      cursor: pointer;
+    }
+
+    body.open .sidebar .logo #btn, body.open .profile #log_out {
+      flex:1;
+      text-align: right;
+    }
+    /* nav-list */
+    .sidebar .nav-list {
+      margin-top: 20px;
+    }
+    .sidebar li {
+      position: relative;
+      margin: .5rem 0;
+    }
+
+    /*========= tooltip */
+    .sidebar li .tooltip {
+      position: absolute;
+      top: -1.5rem;
+      left: calc(100% + 1rem);
+      background-color: var(--sidebar-color);
+      color: var(--sidebar-bgColor);
+      box-shadow: 0 5px 10px rgba(0, 0, 0, 0.3);
+      padding: 6px 12px;
+      border-radius: 4px;
+      font-size: .9rem;
+      font-weight: 400;
+      opacity: 0;
+      white-space: nowrap;
+      /* li下的tooltip只是透明了，其存在于页面上，所以将其pointer事件取消，以防hover事件 */
+      pointer-events: none;
+    }
+    .sidebar li:hover .tooltip {
+      opacity: 1;
+      transition: 0.5s;
+      top: 50%;
+      transform: translateY(-50%);      
+    }
+    body.open .sidebar li .tooltip {
+      display: none;
+    }
+    /*========= 超链接 */
+    .sidebar li a {
+      display: flex;
+      height: 100%;
+      width: 100%;
+      border-radius: .5rem;
+      align-items: center;      
+      transition: 0.4s ;
+      background-color: var(--sidebar-bgColor);
+      color: var(--sidebar-color);
+    }
+    .sidebar li a:hover, .sidebar .bx-search:hover{
+      background-color: var(--sidebar-color);
+      color: var(--sidebar-bgColor);
+    }
+    .sidebar li a .links_name {
+      font-size: .9rem;
+      font-weight: 400;
+      opacity: 0;
+      transition: 0.4s;
+    }
+    body.open .sidebar li a .links_name {
+      opacity: 1;
+    }
+    .sidebar li a:hover .links_name,
+    .sidebar li a:hover i {
+      transition: 0.5s;
+      color: var(--sidebar-bgColor);
+    }
+    .sidebar li i {
+      height: 2.5rem;
+      line-height: 2.5rem;
+      font-size: 1.2rem;
+      border-radius: .5rem;
+    }
+
+    /*========= search */
+    .sidebar input {
+      font-size: 1rem;
+      color: var(--sidebar-color);
+      background-color: var(--search-profile-bgColor);
+      font-weight: 400;
+      outline: none;
+      height: 3rem;
+      /* width: 100%; */
+      width: 3rem;
+      border: none;
+      border-radius: .5rem;
+      transition: all 0.5s ease;      
+    }
+    body.open .sidebar input {
+      padding: 0 20px 0 50px;
+      width: 100%;
+    }
+    .sidebar .bx-search {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      transform: translateY(-50%);
+      font-size: 1.5rem;
+      background: var(--search-profile-bgColor);
+    }
+    body.open .sidebar .bx-search:hover {
+      /* search在open时的hover不变颜色 */
+      background: var(--search-profile-bgColor);
+      color: var(--sidebar-color);
+    }   
+
+    /*========= profile */
+    .sidebar .profile {
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 100%;
+      padding: .5rem 1rem;
+      background-color: var(--search-profile-bgColor); 
+    }
+    .sidebar .profile img {
+      height: 2.5rem;
+      width: 2.5rem;
+      object-fit: cover;
+      border-radius: .5rem;
+      margin-right: unset;
+    }
+    body.open .sidebar .profile img{
+      margin-right: .5rem;
+    }
+    .sidebar .profile .name,
+    .sidebar .profile .job {
+      font-size: 1rem;
+      font-weight: 400;
+      white-space: nowrap;
+    }
+    .sidebar .profile .job {
+      font-size: 0.7rem;
+    }
+
+  </style>
+</head>
+
+<body>
+  <div class="sidebar">
+    <div class="logo">
+      <i class='bx bxl-c-plus-plus icon'></i>
+      <div class="logo_name">CodingLab</div>
+      <i class='bx bx-menu' id="btn"></i>
+    </div>
+    <ul class="nav-list">
+      <li>
+        <i class='bx bx-search'></i>
+        <input type="text" placeholder="Search...">
+        <span class="tooltip">Search</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-grid-alt'></i>
+          <span class="links_name">Dashboard</span>
+        </a>
+        <span class="tooltip">Dashboard</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-user'></i>
+          <span class="links_name">User</span>
+        </a>
+        <span class="tooltip">User</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-chat'></i>
+          <span class="links_name">Messages</span>
+        </a>
+        <span class="tooltip">Messages</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-pie-chart-alt-2'></i>
+          <span class="links_name">Analytics</span>
+        </a>
+        <span class="tooltip">Analytics</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-folder'></i>
+          <span class="links_name">File Manager</span>
+        </a>
+        <span class="tooltip">Files</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-cart-alt'></i>
+          <span class="links_name">Order</span>
+        </a>
+        <span class="tooltip">Order</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-heart'></i>
+          <span class="links_name">Saved</span>
+        </a>
+        <span class="tooltip">Saved</span>
+      </li>
+      <li>
+        <a href="#">
+          <i class='bx bx-cog'></i>
+          <span class="links_name">Setting</span>
+        </a>
+        <span class="tooltip">Setting</span>
+      </li>      
+    </ul>
+    <div class="profile">
+      
+        <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=761&q=80" alt="profileImg">
+        <div class="name_job">
+          <div class="name">Prem Shahi</div>
+          <div class="job">Web designer</div>
+        </div>
+
+      <i class='bx bx-log-out' id="log_out"></i>
+    </div>
+  </div>
+  <section class="home-section">
+    <div class="text">Dashboard</div>    
+  </section>
+
+  <script>    
+    const body = document.querySelector('body'),
+          closeBtn = document.querySelector("#btn"),
+          searchBtn = document.querySelector(".bx-search")
+
+    if(window.screen.width >= 768) {
+      body.classList.add('open')
+      closeBtn.classList.replace('bx-menu', 'bx-menu-alt-right')
+    }
+
+    closeBtn.onclick = () => {
+      body.classList.toggle('open')
+      menuBtnChange()
+    }
+
+    searchBtn.onclick = () => { 
+      body.classList.toggle('open')
+      menuBtnChange();
+    }
+
+    const mq = window.matchMedia('(max-width: 768px)')
+    mq.addEventListener('change', (event) => {
+      
+      if(event.matches) {
+        body.classList.remove('open')
+        closeBtn.classList.replace('bx-menu-alt-right', 'bx-menu')
+      }else{
+        body.classList.add('open')
+        closeBtn.classList.replace('bx-menu', 'bx-menu-alt-right')
+      }
+    })
+
+    function menuBtnChange() {
+      if (body.classList.contains("open")) {
+        closeBtn.classList.replace("bx-menu", "bx-menu-alt-right")
+      } else {
+        closeBtn.classList.replace("bx-menu-alt-right", "bx-menu")
+      }
+    }
+  </script>
+</body>
+
+</html>
